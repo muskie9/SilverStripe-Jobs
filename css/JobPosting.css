@@ -1,0 +1,8 @@
+#Form_ApplicationForm{
+	display: none;
+}
+
+.error{
+	color: red;
+	font-style: italic;
+}
