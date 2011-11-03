@@ -118,8 +118,30 @@
 			$Application = new Application();
 			$form->saveInto($Application);
 			$Application->JobPostingID = $this->ID;
+			
+			$sites = array(
+				$data['Site1'],
+				$data['Site2'],
+				$data['Site3']
+			);
+			
+			$count = 1;
+			
+			foreach($sites as $site){
+				$url = $this->parseSite($site);
+
+				if($count==1){
+					$Application->Site1 = $url;
+				}elseif($count==2){
+					$Application->Site2 = $url;
+				}else{
+					$Application->Site3 = $url;
+				}
+				$count++;
+			}
+			
+			
 			$Application->write();
-			//Director::redirect($this->Link('Success'));
 		
 		}
 		
@@ -131,6 +153,26 @@
 		
 			$url = Director::URLParams();
 			return (isset($url['ID']) && ($url['ID'] == 'Success'));
+			
+		}
+		
+		public function parseSite($url=null){
+						
+			$search = "https://";
+			$search2 = "http://";
+			$replace = "";
+			
+			if(strpos($url, $search)!==false){
+				$search = "https://";
+				$site = str_replace($search, $replace, $url);
+			}elseif(strpos($url, $search2)!==false){
+				$search = "http://";
+				$site = str_replace($search, $replace, $url);
+			}else{
+				$site = $url;
+			}
+			
+			return $site;
 			
 		}
 	

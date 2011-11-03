@@ -44,8 +44,6 @@
 		function onAfterWrite(){
 			parent::onAfterWrite();
 			
-			//$current = DataObject::get_by_id('Application',$this->ID);
-			
 			$parent = $this->JobPostingID;
 			$parent = DataObject::get_by_id('JobPosting',$parent);
 			
