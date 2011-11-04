@@ -60,7 +60,9 @@
 		 */
 		public static $allowed_actions = array (
 			'ApplicationForm',
-			'Success'
+			'Success',
+			'applicants',
+			'application'
 		);
 	
 		public function init() {
@@ -174,6 +176,53 @@
 			
 			return $site;
 			
+		}
+		
+		protected function applicants(){
+		
+			if(Permission::check('ADMIN')){
+			
+				$Applicants = DataObject::get('Application', 'JobPostingID = '.$this->ID);
+				$page = $this->customise(array(
+					'Title' => $this->Title." Applicants",
+					'Applicants' => $Applicants
+				));
+				
+			}else{
+			
+				$page = $this->customise(array(
+					'Title' => "Insufician Permissions",
+					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
+				));
+			
+			}
+			
+			return $page;
+		
+		}
+		
+		protected function application(){
+		
+			if(Permission::check('ADMIN')){
+			
+				$Params = $this->getURLParams();
+				$applicantID = $Params['ID'];
+				$Applicant = DataObject::get_by_id('Application', $applicantID);
+				$page = $this->customise(array(
+					'Applicant' => $Applicant
+				));
+				
+			}else{
+			
+				$page = $this->customise(array(
+					'Title' => "Insufician Permissions",
+					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
+				));
+			
+			}
+			
+			return $page;
+		
 		}
 	
 	}

@@ -3,7 +3,7 @@
 	<title></title>
 	<style>
 		body{
-			background: url({$BaseHref}job_postings/images/backgroun.jpg) left top repeat;
+			background: url({$BaseHref}job_postings/images/background.jpg) left top repeat;
 		}
 		#main{
 			
@@ -38,7 +38,7 @@
 					</tr>
 					<tr>
 						<td>Email:</td>
-						<td>$Email</td>
+						<td><a href="mailto:$Email">$Email</a></td>
 					</tr>
 					<tr>
 						<td>Phone:</td>
