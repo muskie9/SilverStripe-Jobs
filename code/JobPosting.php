@@ -178,6 +178,10 @@
 			
 		}
 		
+		protected function SecCheck(){
+			return (Permission::check('ADMIN')) ? true : false;
+		}
+		
 		protected function applicants(){
 		
 			if(Permission::check('ADMIN')){
@@ -224,5 +228,7 @@
 			return $page;
 		
 		}
+		
+		//public function delete
 	
 	}

@@ -1,8 +1,9 @@
 <% require css(job_postings/css/Applicants.css) %>
 
 <div class="typography">
+	<% if Applicants && SecCheck %>
+	<a href="$Top.Link" class="back">$Top.Title</a>
 	<h2>$Title ($Applicants.Count)</h2>
-	<% if Applicants %>
 	<ul id="Applicants">
 		<% control Applicants %>
 		<li <% if FirstLast %>class="$FirstLast"<% end_if %>>
@@ -33,6 +34,7 @@
 		<% end_control %>
 	</ul>
 	<% else %>
+		<h2>$Title</h2>
 		$Content
 	<% end_if %>
 </div>

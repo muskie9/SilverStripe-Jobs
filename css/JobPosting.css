@@ -6,3 +6,22 @@
 	color: red;
 	font-style: italic;
 }
+
+h2{
+	width: 300px;
+	float: left;
+}
+
+.applicants{
+	display: block;
+	zoom: 1;
+	float: right;
+	
+}
+
+.fix{
+	clear: both;
+	height: 1px;
+	margin: -1px 0 0;
+	overflow: hidden
+}
