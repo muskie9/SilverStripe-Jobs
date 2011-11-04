@@ -62,7 +62,9 @@
 			'ApplicationForm',
 			'Success',
 			'applicants',
-			'application'
+			'application',
+			'deleteApplication',
+			'printApplicant'
 		);
 	
 		public function init() {
@@ -229,6 +231,54 @@
 		
 		}
 		
-		//public function delete
+		public function deleteApplication(){
+		
+			if(Permission::check('ADMIN')){
+			
+				$Params = $this->getURLParams();
+				$applicantID = $Params['ID'];
+				$Applicant = DataObject::get_by_id('Application', $applicantID);
+				$dupe = $Applicant;
+				$Applicant->delete();
+				$page = $this->customise(array(
+					'Applicant' => $dupe
+				));
+				
+			}else{
+			
+				$page = $this->customise(array(
+					'Title' => "Insufician Permissions",
+					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
+				));
+			
+			}
+			
+			return $page;
+		
+		}
+		
+		public function printApplicant(){
+		
+			if(Permission::check('ADMIN')){
+			
+				$Params = $this->getURLParams();
+				$applicantID = $Params['ID'];
+				$Applicant = DataObject::get_by_id('Application', $applicantID);
+				$page = $this->customise(array(
+					'Applicant' => $Applicant
+				));
+				
+			}else{
+			
+				$page = $this->customise(array(
+					'Title' => "Insufician Permissions",
+					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
+				));
+			
+			}
+			
+			return $page;
+		
+		}
 	
 	}

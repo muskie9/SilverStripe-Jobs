@@ -1,4 +1,5 @@
 <% require css(job_postings/css/Applicant.css) %>
+<% require javascript(job_postings/javascript/applicant.js) %>
 
 <div class="typography">
 	<div id="ledger">
@@ -21,8 +22,15 @@
 		</div>
 		<div class="controls">
 			<div class="actions">
-				<a href="{$Top.BaseHref}/print/$ID" class="print first">Print {$FirstName}'s Application</a>
-				<a href="#" class="delete">Delete {$FirstName}'s Application<div class="double-check">Are you sure?<br /><a href="{$Top.BaseHref}/delete/$ID">Yes</a> | <a href="#" class="cancel">No</a></div></a>
+				<a href="{$Top.Link}printApplicant/$ID" class="print first" target="_blank">Print Application</a>
+				<div class="delete">
+					<a href="#" class="del-click">Delete Application</a>
+					<div class="double-check">
+					<a href="{$Top.Link}deleteApplication/$ID" class="yes">Delete</a>
+					<a href="#" class="cancel">Cancel</a>
+					<br class="fix" />
+					</div>
+				</div>
 			</div>
 			<% if Resume %>
 			<a class="resume" href="$Resume.URL">
@@ -30,7 +38,7 @@
 				<img src="/job_postings/images/file_download-128.png" alt="Download $FirstName {$LastName}'s resume." />
 			</a>
 			<% else %>
-			<img class="resume" src="/job_postings/images/file_download-128-off.png" alt="No resume uploaded" />
+			<img class="resume no-resume" src="/job_postings/images/file_download-128-off.png" alt="No resume uploaded" />
 			<% end_if %>
 		</div>
 		<br class="fix" />

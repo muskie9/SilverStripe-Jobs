@@ -2,7 +2,7 @@
 
 <div class="typography">
 	<% if Applicants && SecCheck %>
-	<a href="$Top.Link" class="back">$Top.Title</a>
+	<a href="$Top.Link" class="back">$Top.MenuTitle</a>
 	<h2>$Title ($Applicants.Count)</h2>
 	<ul id="Applicants">
 		<% control Applicants %>
