@@ -197,8 +197,8 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insufician Permissions",
-					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
+					'Title' => "Insuficiant Permissions",
+					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/Login\">Login to gain access</a>"
 				));
 			
 			}
@@ -221,8 +221,8 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insufician Permissions",
-					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
+					'Title' => "Insuficiant Permissions",
+					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/Login\">Login to gain access</a>"
 				));
 			
 			}
@@ -247,8 +247,8 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insufician Permissions",
-					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
+					'Title' => "Insuficiant Permissions",
+					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/Login\">Login to gain access</a>"
 				));
 			
 			}
@@ -271,7 +271,7 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insufician Permissions",
+					'Title' => "Insuficiant Permissions",
 					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
 				));
 			

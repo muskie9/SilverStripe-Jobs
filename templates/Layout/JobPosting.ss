@@ -5,7 +5,9 @@
 
 <div class="typography">
 	<h2>$Title</h2>
+	<% if SecCheck %>
 	<a class="applicants" href="{$Link}applicants/">Applicants</a>
+	<% end_if %>
 	<br class="fix" />
 	<% if IsSuccess && SubmitText %>
 	$SubmitText
