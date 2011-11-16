@@ -70,7 +70,7 @@
 		public function init() {
 			parent::init();
 	
-			Validator::set_javascript_validation_handler('none'); //to fix conflict with jquery, need to add jquery validation
+			Validator::set_javascript_validation_handler('none'); //to fix conflict with jquery
 			Requirements::block('sapphire/thirdparty/prototype/prototype.js');
 		}
 		
