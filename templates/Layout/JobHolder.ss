@@ -7,7 +7,7 @@
 		<li<% if FirstLast %> class="$FirstLast"<% end_if %>>
 			<h3><a href="$Link">$Title</a></h3>
 			<p>$Content.LimitWordCount(30)</p>
-			<a href="$Link">Read More &gt;&gt;</a> | <a href="{$Link}?form-toggle=show#Form_ApplicationForm">Apply Online</a>
+			<a href="$Link">Read More &gt;&gt;</a> | <a href="{$Link}?form-toggle=show">Apply Online</a>
 		</li>
 	<% end_control %>
 	</ul>

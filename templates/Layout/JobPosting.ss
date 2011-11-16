@@ -22,3 +22,4 @@
 	$ApplicationForm
 	<% end_if %>
 </div>
+<div id="hidden"></div>

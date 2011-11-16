@@ -1,7 +1,8 @@
 	$('#Apply').click(function(){
-		
+		event.preventDefault();
 		$('#Apply').slideToggle(500);
 		$('#Form_ApplicationForm').slideToggle(500);
+		$('html,body').animate({scrollTop:$('#Form_ApplicationForm').offset().top-25}, 2000);
 	
 	});
 
