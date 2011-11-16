@@ -197,7 +197,7 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insuficiant Permissions",
+					'Title' => "Insufficient Permissions",
 					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/Login\">Login to gain access</a>"
 				));
 			
@@ -221,7 +221,7 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insuficiant Permissions",
+					'Title' => "Insufficient Permissions",
 					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/Login\">Login to gain access</a>"
 				));
 			
@@ -247,7 +247,7 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insuficiant Permissions",
+					'Title' => "Insufficient Permissions",
 					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/Login\">Login to gain access</a>"
 				));
 			
@@ -271,13 +271,20 @@
 			}else{
 			
 				$page = $this->customise(array(
-					'Title' => "Insuficiant Permissions",
+					'Title' => "Insufficient Permissions",
 					'Content' => "You don't have proper permissions to view this content. <a href=\"/Security/LoginForm\">Login to gain access</a>"
 				));
 			
 			}
 			
 			return $page;
+		
+		}
+		
+		protected function anyApps(){
+		
+			
+			return (($applicants = DataObject::get('Application','JobPostingID ='.$this->ID))) && $this->secCheck() ? true : false;
 		
 		}
 		

@@ -1,7 +1,7 @@
 <% require css(job_postings/css/Applicants.css) %>
 
 <div class="typography">
-	<% if Applicants && SecCheck %>
+	<% if anyApps %>
 	<a href="$Top.Link" class="back">$Top.MenuTitle</a>
 	<h2>$Title ($Applicants.Count)</h2>
 	<ul id="Applicants">
@@ -34,7 +34,10 @@
 		<% end_control %>
 	</ul>
 	<% else %>
+		<% if secCheck %>
+		<a href="$Top.Link" class="back">$Top.MenuTitle</a>
+		<% end_if %>
 		<h2>$Title</h2>
-		$Content
+		<p>There are currently no applications for this position.</p>
 	<% end_if %>
 </div>
