@@ -84,6 +84,12 @@
 			$Phone = new TextField('Phone', 'Phone Number');
 			$Bio = new TextareaField('Bio', 'About You');
 			$File = new FileUploadField('Resume', 'Resume');
+			$File->setFileTypes(array(
+	            'doc',
+	            'docx',
+	            'pdf'
+	        ));
+
 			$Skills = new TextareaField('Skills', 'Your Skills');
 			$Site1 = new TextField('Site1', 'Website 1');
 			$Site2 = new TextField('Site2', 'Website 2');
