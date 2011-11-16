@@ -31,3 +31,16 @@
 			}
 		}
 	});
+
+	/*function $_GET(q,s) { 
+        s = s ? s : window.location.search; 
+        var re = new RegExp('&'+q+'(?:=([^&]*))?(?=&|$)','i'); 
+        return (s=s.replace(/^?/,'&').match(re)) ? (typeof s[1] == 'undefined' ? '' : decodeURIComponent(s[1])) : undefined; 
+    } 
+    
+    var var1 = $_GET('form');
+    
+    if(var1=='show'){
+    	$('#Apply').css({'display':'none'});
+    	$('#Form_ApplicationForm').css({'display':'block'});
+    }*/

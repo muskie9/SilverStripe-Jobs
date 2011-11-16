@@ -280,5 +280,11 @@
 			return $page;
 		
 		}
+		
+		public function getCheck(){
+			
+			return (isset($_GET['form-toggle']) && ($_GET['form-toggle'] == 'show')) ? true : false;
+			
+		}
 	
 	}
