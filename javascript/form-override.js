@@ -5,7 +5,7 @@ $(document).ready(function() {
 	
 	$("#hidden").click(function(event){		
 		event.preventDefault();
-		$('html,body').animate({scrollTop:$('#Form_ApplicationForm').offset().top}, 2000);
+		$('html,body').delay(1500).animate({scrollTop:$('#Form_ApplicationForm').offset().top}, 2000);
 	});
 	
 	$('#hidden').click();
