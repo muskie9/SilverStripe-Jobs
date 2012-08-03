@@ -6,8 +6,13 @@ $Breadcrumbs
     <li class="column-row main-content">
         <article>
         	<h2 class="detail-head">$Title</h2>
-        	<h3 class="detail-subhead">Apply Online</h3>
         	<% if SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
+        	
+        	<% include JobSummary %>
+			<% include JobDetail %>
+			
+			<h3 class="detail-subhead">Apply Online</h3>
+        	
         	<p>Thank, we've received your application. Someone from our office will contact you.</p>
         </article>
     </li>

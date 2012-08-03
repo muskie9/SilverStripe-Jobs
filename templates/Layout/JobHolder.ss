@@ -32,11 +32,7 @@ $Breadcrumbs
 		                <li><a href="#">Share Article</a></li>
 		            </ul>-->
 		            
-		            <p>
-		            	$Content.FirstParagraph(text)
-		            </p>
-		            
-		            <p><a href="$Link">LEARN MORE</a></p>
+		            <% include JobSummary %>
 		            
 		            <% include JobDetail %>
 		            

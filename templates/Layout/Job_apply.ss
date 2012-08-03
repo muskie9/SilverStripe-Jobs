@@ -21,10 +21,12 @@ $Breadcrumbs
             
             <h2 class="detail-head">$Title</h2>
             
-            <h3 class="detail-subhead">Apply Online</h3>
-			<p>Please complete the form below to apply for this position.</p>
-			
+            <% include JobSummary %>
 			<% include JobDetail %>
+			
+			<h3 class="detail-subhead">Apply Online</h3>
+			
+			<p>Please complete the form below to apply for this position.</p>
 			
 			$Form
 			
