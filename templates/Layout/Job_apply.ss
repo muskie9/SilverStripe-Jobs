@@ -15,15 +15,19 @@ $Breadcrumbs
 <% if SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
 
 <ul class="columns columns-2 responsive-50 main-columns">
-    <li class="column-row main-content article">
+    <li class="column-row main-content">
         <article>
             <div><b>$Date.Format(F j Y)</b></div>
             
-            <h2>$Title</h2>
+            <h2 class="detail-head">$Title</h2>
             
-            <h3>Apply Online</h3>
+            <h3 class="detail-subhead">Apply Online</h3>
 			<p>Please complete the form below to apply for this position.</p>
+			
+			<% include JobDetail %>
+			
 			$Form
+			
             
         </article>
     </li>
