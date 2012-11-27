@@ -3,10 +3,10 @@
 		$BreadCrumbs
 		<h1>$Title</h1>
             
-        <p><button type="submit" onclick="parent.location='{$Link}apply'">Apply for this Job</button></p>
-        
-        <% include JobDetail %>
-        
+        <% include JobDetail %> 
+           
+        <p class="clearfix"><button type="submit" onclick="parent.location='{$Link}apply'">Apply for this Job</button></p>
+                
 		<div class="content">
 			$Content
 		</div>   

@@ -1,23 +1,19 @@
-$Breadcrumbs
+<div class="content-container">	
+	<article>
+		<h1>$Title</h1>
 
-<h2 class="page-title">$Parent.MenuTitle</h2>
-
-<ul class="columns columns-2 responsive-50 main-columns">
-    <li class="column-row main-content">
-        <article>
-        	<h2 class="detail-head">$Title</h2>
-        	<% if SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
-        	
-        	<% include JobSummary %>
-			<% include JobDetail %>
-			
-			<h3 class="detail-subhead">Apply Online</h3>
-        	
-        	<p>Thank, we've received your application. Someone from our office will contact you.</p>
-        </article>
-    </li>
-    <li class="aside-content">
-        <h2 class="section-title">$Parent.MenuTitle</h2>
-        
-    </li>
-</ul>
+		<% include JobDetail %>
+					
+		<h3>Application Received</h3>
+    	
+    	<% if Parent.Message %>
+    		$Parent.Message
+    	<% else %>
+    		<p>Thank you for your application.</p>
+    	<% end_if %>
+   
+   </article>
+</div>
+<% with Parent %>
+<% include JobSideBar %>
+<% end_with %>

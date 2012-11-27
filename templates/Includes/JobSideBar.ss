@@ -7,7 +7,7 @@
 	        <% end_control %>
 	    </ul>
 	<% end_if %>
-	<p>&nbsp;</p>
+
     <h3>Types</h3>
     <ul>
     	<% control JobTypeList %>

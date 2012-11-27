@@ -18,6 +18,16 @@ class JobHolder extends Page{
 
 	);
 	
+	static $allowed_children = array(
+		'Job'
+	);
+	
+	public static $singular_name = "Job Group";
+	public static $plural_name = "Job Groups";
+	
+	static $description = 'Jobs Landing Page';
+	
+	
 	public function getCMSFields(){
 			
 		$fields = parent::getCMSFields();
@@ -38,15 +48,13 @@ class JobHolder extends Page{
 		return $fields;
 	}
 	
-	static $allowed_children = array(
-		'Job'
-	);
-	
-	public static $singular_name = "Job Group";
-	public static $plural_name = "Job Groups";
-	
-	static $description = 'Jobs Landing Page';
-	
+	// custom gets
+	public function getPostedJobs() {
+		return Job::get()
+			->where("\"PostDate\" <= '" . date('Y-m-d') . "'")
+			->sort('PostDate DESC');
+	}
+		
 	public function getCategoryList() {
 		$Cats = JobCategory::get();
 		
@@ -54,7 +62,9 @@ class JobHolder extends Page{
 		foreach ($Cats as $cat) {
 			$doSet->push(new ArrayData(array(
 				'Category' => $cat->Name,
-				'JobCount' => $cat->Jobs("CloseDate > '" . date('Y-m-d') . "'")->Count()
+				'JobCount' => $cat->Jobs()
+					->where("\"PostDate\" <= '" . date('Y-m-d') . "'")
+					->Count()
 			)));
 		}
 		return $doSet;
@@ -67,8 +77,8 @@ class JobHolder extends Page{
 		foreach(singleton('Job')->dbObject('PositionType')->enumValues() as $type) { 
 			$doSet->push(new ArrayData(array( 
 				'Type' => $type, 
-				'JobCount' => Job::get()
-					->where("PositionType = '$type' AND CloseDate > '" . date('Y-m-d') . "'")
+				'JobCount' => $this->getPostedJobs()
+					->filter(array('PositionType' => $type))
 					->Count()
 			))); 
 		}
@@ -95,9 +105,8 @@ class JobHolder_Controller extends Page_Controller{
 	}
 	
 	public function Results() {
-		return Job::get()
-			//->filter(array('CloseDate:GreaterThan' => date('Y-m-d'), 'StartDate:LessThan' => date('Y-m-d')))
-			->sort('StartDate DESC');		
+		return $this->getPostedJobs()
+			->sort('StartDate DESC');
 	}
 	
 	// filter by job category
@@ -115,6 +124,7 @@ class JobHolder_Controller extends Page_Controller{
 			if ($Category = JobCategory::get()->filter('Name', $cat)->First()) {
 				$Results = $Category->Jobs()
 					//->filter(array('CloseDate:GreaterThan' => date('Y-m-d'), 'StartDate:LessThan' => date('Y-m-d')))
+					->where("\"PostDate\" <= '" . date('Y-m-d') . "'")
 					->sort('StartDate DESC');
 				$CategoryName = $Category->Name;
 			} else {
@@ -144,8 +154,9 @@ class JobHolder_Controller extends Page_Controller{
 		
 		if ($type) {
 			$Results = Job::get()
-				->filter(array('PositionType' => $type, 'CloseDate:GreaterThan' => date('Y-m-d')/*, 'StartDate:LessThan' => date('Y-m-d')*/))
-				->sort('StartDate DESC');
+				->filter(array('PositionType' => $type))
+				->where("\"PostDate\" <= '" . date('Y-m-d') . "'")
+				->sort('PostDate DESC');
 		
 			return $this->render(array(
 				'Results' => $Results,
