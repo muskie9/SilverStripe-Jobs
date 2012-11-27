@@ -1,12 +1,14 @@
 <ul class="collapse divider divider-repeat">
+    <% if Categories %>
     <li class="label">CATEGORY:</li>
-    <% cached URLSegment, 'job-categories', LastEdited %>
 	    <% loop Categories %>
 	    	<li><a href="{$Top.Link}category/$Name/">$Name</a></li>
 	    <% end_loop %>
-    <% end_cached %>
+	<% end_if %>
     <li class="label">TYPE:</li>
     <li><a href="{$Parent.Link}type/$PositionType/">$PositionType</a></li>
-    <li class="label">CLOSES:</li>
-    <li>$CloseDate.Format(F j Y)</li>
+    <% if Posted %>
+    	<li class="label">POSTED:</li>
+    	<li>$Posted</li>
+    <% end_if %>
 </ul>

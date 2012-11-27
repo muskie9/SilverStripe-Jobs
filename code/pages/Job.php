@@ -5,8 +5,8 @@ class Job extends Page{
 	static $db = array(
 		//'Category' => "Enum('Design, Development, Project Management, Writing, IA')",
 		'PositionType' => "Enum('Full-time, Part-time, Freelance, Internship')",
-		'StartDate' => 'Date',
-		'CloseDate' => 'Date'
+		'PostDate' => 'Date',
+		'Experience' => 'Varchar(200)'
 	);
 	
 	static $has_many = array(
@@ -32,6 +32,11 @@ class Job extends Page{
 		)
 	);
 	
+	public function populateDefaults() {
+	    $this->PostDate = date('Y-m-d');
+	    parent::populateDefaults();
+	}
+	
 	static $description = 'Job Detail Page';
 	
 	public function getCMSFields(){
@@ -39,11 +44,9 @@ class Job extends Page{
 		$fields = parent::getCMSFields();
 		
 		// calendar fields
-		$StartDate = new DateField('StartDate');
-		$StartDate->setConfig('showcalendar', true);
-		
-		$CutOffDate = new DateField('CloseDate');
-		$CutOffDate->setConfig('showcalendar', true);
+		$PostDate = DateField::create('PostDate', 'Position Post Date')
+			->setConfig('showcalendar', true)
+			->setConfig('dateformat', 'MMM dd, YYYY');
 		
 		// Categories
 	    $CategoryField = new CheckboxSetField('Categories', 'Categories', JobCategory::get()->map('ID', 'Name'));
@@ -67,19 +70,45 @@ class Job extends Page{
 	    $ResponsibilityField = new GridField("Responsibilities", "Responsibilities", $this->Responsibilities()->sort('SortOrder'), $gridFieldConfig);
 		
 		$fields->addFieldsToTab("Root.Job", array(
-			new DropdownField('PositionType', 'Position Type', singleton('Job')->dbObject('PositionType')->enumValues()),
-			$StartDate,
-			$CutOffDate,
+			DropdownField::create('PositionType', 'Position Type', singleton('Job')->dbObject('PositionType')->enumValues())
+				->setEmptyString('--select--'),
+			$PostDate,
 			$CategoryField
 		));
 		
+		/*
 		$fields->addFieldsToTab('Root.Details', array(
 			$ResponsibilityField,
 			$RequirementsField,
 			$SkillsField
 		));
+		*/
 		
 		return $fields;
+	}
+	
+	// Dates
+	public function getPosted() {
+		//if ($this->PostDate) return $this->obj('PostDate')->Format('M n, Y');
+		if ($this->PostDate) return $this->obj('PostDate')->NiceUS();
+		return false;
+	}
+	
+	// Apply Button
+	public function getApplyButton() {
+		if ($this->CloseDate) {
+			if ($this->CloseDate > Date('Y-m-d')) {
+				$apply = '<p><button type="submit" onclick="parent.location=\'' . $this->Link() . 'apply\'">Apply for this position</button>';
+				if($this->parent()->Application()->ID!=0){
+					$download = $this->parent()->Application()->URL;
+					$apply.=" or <a href=\"$download\" target=\"_blank\">Download the Application</a>";
+				}
+				$apply.="</p>";
+				return $apply;
+			} else {
+				return '<p><b>No longer accepting applications for this position</b></p>';
+			}	
+		}
 	}
 	
 	// return Requirements in order
@@ -95,6 +124,10 @@ class Job extends Page{
 	// return Responsibilities in order
 	public function getResponsibilityList() {
 		return $this->Responsibilities()->sort('SortOrder');
+	}
+	
+	public function ApplicationLink(){
+		return $this->parent()->Application()->URL;
 	}
 	
 	//static $can_be_root = false;
@@ -113,6 +146,9 @@ class Job_Controller extends Page_Controller{
 	public function apply() {
 	
 		$Form = $this->JobApp();
+
+		$Form->Fields()->insertBefore(ReadOnlyField::create('PositionName', 'Position', $this->getTitle()), 'Available');
+		$Form->Fields()->push(HiddenField::create('JobID', 'JobID', $this->ID));
 		
 		$page = $this->customise(array(
 			'Form' => $Form
@@ -123,13 +159,19 @@ class Job_Controller extends Page_Controller{
 	}
 	
 	public function JobApp() {
+	
+		$App = singleton('AlaarkSubmission');
 		
-		$fields = singleton('JobSubmission')->getFrontEndFields();
+		$fields = $App->getFrontEndFields();
+		
+		//debug::show($fields);
 		
 		$actions = FieldList::create(
 			new FormAction('doApply', 'Apply')
 		);
 		
+		$required = $App->getRequiredFields();
+		/*
 		$required = new RequiredFields(array(
 			'FirstName',
 			'LastName',
@@ -137,6 +179,7 @@ class Job_Controller extends Page_Controller{
 			'Phone',
 			//'Resume'
 		));
+		*/
 		
 		return Form::create($this, "JobApp", $fields, $actions, $required);
 			//->addWell()
@@ -144,16 +187,33 @@ class Job_Controller extends Page_Controller{
 		
 	}
 	
-	public function doApply($data, $form) {
+	public function doApply($data, $form){
 	
-		$entry = new JobSubmission();
+		$entry = new AlaarkSubmission();
 		$form->saveInto($entry);
 		
 		$entry->JobID = $this->ID;
 		
-        $entry->write();
-        
-        $this->redirect(Controller::join_links($this->Link(), 'complete'));
+        if($entry->write()){
+	        $to = $this->parent()->EmailRecipient;
+	        $from = $this->parent()->FromAddress;
+	        $subject = $this->parent()->EmailSubject;
+	        $body = $this->parent()->EmailMessage;
+	        
+	        $email = new Email($from,$to,$subject,$body);
+	        $email->setTemplate('JobSubmission');
+	        
+	        $email->populateTemplate(
+	        	JobSubmission::get()
+	        	->byID($entry->ID)
+	        );
+	        
+	        //debug::show($email);
+	        
+	        $email->send();
+	        
+	        $this->redirect(Controller::join_links($this->Link(), 'complete'));
+        }
 	
 	}
 	

@@ -1,6 +1,18 @@
 <?php
 
 class JobHolder extends Page{
+
+	static $db = array(
+		'Message' => 'HTMLText',
+		'FromAddress' => 'Varchar(255)',
+		'EmailRecipient' => 'Varchar(255)',
+		'EmailSubject' => 'Varchar(255)'//,
+		//'EmailMessage' => 'HTMLText'
+	);
+	
+	static $has_one = array(
+		'Application' => 'File'
+	);
 	
 	static $has_many = array(
 
@@ -9,6 +21,19 @@ class JobHolder extends Page{
 	public function getCMSFields(){
 			
 		$fields = parent::getCMSFields();
+		
+		$app = new UploadField('Application', 'Application Form');
+		$app->allowedExtensions = array('pdf','PDF');
+		
+		$fields->addFieldToTab('Root.ApplicationFile', $app);
+		$fields->addFieldsToTab('Root.Confirmation', array(
+			HTMLEditorField::create('Message', 'Application Confirmation Message')
+		));
+		$fields->addFieldsToTab('Root.SubmissionEmailSettings', array(
+			EmailField::create('FromAddress','Submission From Address'),
+			EmailField::create('EmailRecipient','Submission Recipient'),
+			TextField::create('EmailSubject','Submission Email Subject Line')
+		));
 		
 		return $fields;
 	}
@@ -29,7 +54,7 @@ class JobHolder extends Page{
 		foreach ($Cats as $cat) {
 			$doSet->push(new ArrayData(array(
 				'Category' => $cat->Name,
-				'JobCount' => $cat->Jobs("CloseDate > '" . date('Y-m-d') . "' AND StartDate < '" . date('Y-m-d') . "'")->Count()
+				'JobCount' => $cat->Jobs("CloseDate > '" . date('Y-m-d') . "'")->Count()
 			)));
 		}
 		return $doSet;
@@ -42,7 +67,9 @@ class JobHolder extends Page{
 		foreach(singleton('Job')->dbObject('PositionType')->enumValues() as $type) { 
 			$doSet->push(new ArrayData(array( 
 				'Type' => $type, 
-				'JobCount' => DataObject::get("Job","PositionType = '$type' AND CloseDate > '" . date('Y-m-d') . "' AND StartDate < '" . date('Y-m-d') . "'")->Count()
+				'JobCount' => Job::get()
+					->where("PositionType = '$type' AND CloseDate > '" . date('Y-m-d') . "'")
+					->Count()
 			))); 
 		}
 		
@@ -53,6 +80,13 @@ class JobHolder extends Page{
 }
 
 class JobHolder_Controller extends Page_Controller{
+
+	public function init() {
+		parent::init();
+		
+		Requirements::css('jobs/css/job.css');
+		
+	}
 	
 	function index($request) {
 		return $this->render(array(
@@ -62,7 +96,7 @@ class JobHolder_Controller extends Page_Controller{
 	
 	public function Results() {
 		return Job::get()
-			->filter(array('CloseDate:GreaterThan' => date('Y-m-d'), 'StartDate:LessThan' => date('Y-m-d')))
+			//->filter(array('CloseDate:GreaterThan' => date('Y-m-d'), 'StartDate:LessThan' => date('Y-m-d')))
 			->sort('StartDate DESC');		
 	}
 	
@@ -80,7 +114,7 @@ class JobHolder_Controller extends Page_Controller{
 		if ($cat) {
 			if ($Category = JobCategory::get()->filter('Name', $cat)->First()) {
 				$Results = $Category->Jobs()
-					->filter(array('CloseDate:GreaterThan' => date('Y-m-d'), 'StartDate:LessThan' => date('Y-m-d')))
+					//->filter(array('CloseDate:GreaterThan' => date('Y-m-d'), 'StartDate:LessThan' => date('Y-m-d')))
 					->sort('StartDate DESC');
 				$CategoryName = $Category->Name;
 			} else {
@@ -110,7 +144,7 @@ class JobHolder_Controller extends Page_Controller{
 		
 		if ($type) {
 			$Results = Job::get()
-				->filter(array('PositionType' => $type, 'CloseDate:GreaterThan' => date('Y-m-d'), 'StartDate:LessThan' => date('Y-m-d')))
+				->filter(array('PositionType' => $type, 'CloseDate:GreaterThan' => date('Y-m-d')/*, 'StartDate:LessThan' => date('Y-m-d')*/))
 				->sort('StartDate DESC');
 		
 			return $this->render(array(
@@ -118,6 +152,19 @@ class JobHolder_Controller extends Page_Controller{
 				'Type' => $type
 			));
 		}
+	}
+	
+	public function application(){
+		
+		//Determine if the application is valid
+		if($params = $this->getURLParams()){
+			if(is_numeric($params['ID']) && $ID = $params['ID']){
+				$application = AlaarkSubmission::get()
+					->byID($ID);
+				return $application->renderWith('JobSubmission');
+			}
+		}
+		
 	}
 	
 }

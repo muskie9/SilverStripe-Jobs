@@ -73,3 +73,53 @@ html[xmlns] .clearfix {
 		margin: 0 0 10px;
 		padding: 0;
 	}
+	
+/* Job Details */
+.columns,
+ul.collapse,
+ol.collapse
+{
+list-style: none;
+margin: 0px;
+padding: 0px;
+overflow: hidden;
+}
+
+ul.collapse li { float: left; list-style-type: none; background: none; }
+
+.divider { line-height: 13px;  }
+
+.divider-bottom,
+.divider-repeat
+{
+font-size: 10px;
+line-height: 11px;
+margin-top: 40px;
+padding-top: 10px;
+}
+
+ul.divider-repeat
+{
+margin-top: 0px;
+margin-left: 0px;
+margin-bottom: 20px;
+}
+
+	.divider > li
+	{
+	border-left: 1px solid #888;
+	padding: 0px 10px;
+	}
+
+	ul.divider > li:first-child
+	{
+	border-left: 0px;
+	padding-left: 0px;
+	}
+
+	.divider > li.label + li
+	{
+	border-left: 0px;
+	padding-left: 0px;
+	}
+

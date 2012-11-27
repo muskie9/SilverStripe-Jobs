@@ -2,11 +2,11 @@
 
 class JobAdmin extends ModelAdmin {
 	public static $managed_models = array(
-		'JobSubmission',
+		'AlaarkSubmission',
 		'JobCategory',
-		'JobResponsibility',
-		'JobRequirement',
-		'JobSkill'
+		//'JobResponsibility',
+		//'JobRequirement',
+		//'JobSkill'
 	);
 	
 	static $url_segment = 'jobs';

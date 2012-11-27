@@ -1,5 +1,5 @@
-<p>
+<div class="content">
 	$Content.FirstParagraph(text)
-</p>
+	<p><a href="$Link">LEARN MORE</a></p>
+</div>
 
-<p><a href="$Link">LEARN MORE</a></p>
