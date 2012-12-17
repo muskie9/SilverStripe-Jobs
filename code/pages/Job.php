@@ -160,7 +160,7 @@ class Job_Controller extends Page_Controller{
 	
 	public function JobApp() {
 	
-		$App = singleton('AlaarkSubmission');
+		$App = singleton('JobSubmission');
 		
 		$fields = $App->getFrontEndFields();
 		
@@ -189,7 +189,7 @@ class Job_Controller extends Page_Controller{
 	
 	public function doApply($data, $form){
 	
-		$entry = new AlaarkSubmission();
+		$entry = new JobSubmission();
 		$form->saveInto($entry);
 		
 		$entry->JobID = $this->ID;

@@ -2,7 +2,7 @@
 
 class JobAdmin extends ModelAdmin {
 	public static $managed_models = array(
-		'AlaarkSubmission',
+		'JobSubmission',
 		'JobCategory',
 		//'JobResponsibility',
 		//'JobRequirement',
