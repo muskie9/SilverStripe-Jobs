@@ -6,6 +6,7 @@ class Job extends Page{
 		//'Category' => "Enum('Design, Development, Project Management, Writing, IA')",
 		'PositionType' => "Enum('Full-time, Part-time, Freelance, Internship')",
 		'PostDate' => 'Date',
+                'CloseDate' => 'Date',
 		'Experience' => 'Varchar(200)'
 	);
 	
@@ -47,6 +48,10 @@ class Job extends Page{
 		$PostDate = DateField::create('PostDate', 'Position Post Date')
 			->setConfig('showcalendar', true)
 			->setConfig('dateformat', 'MMM dd, YYYY');
+
+                $CloseDate = DateField::create('CloseDate', 'Position Close Date')
+			->setConfig('showcalendar', true)
+			->setConfig('dateformat', 'MMM dd, YYYY');
 		
 		// Categories
 	    $CategoryField = new CheckboxSetField('Categories', 'Categories', JobCategory::get()->map('ID', 'Name'));
@@ -73,6 +78,7 @@ class Job extends Page{
 			DropdownField::create('PositionType', 'Position Type', singleton('Job')->dbObject('PositionType')->enumValues())
 				->setEmptyString('--select--'),
 			$PostDate,
+                        $CloseDate,
 			$CategoryField
 		));
 		
