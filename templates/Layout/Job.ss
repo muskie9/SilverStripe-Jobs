@@ -4,8 +4,9 @@
 		<h1>$Title</h1>
             
         <% include JobDetail %> 
-           
-        <p class="clearfix"><button type="submit" onclick="parent.location='{$Link}apply'">Apply for this Job</button></p>
+          
+        $ApplyButton
+        <!--<p class="clearfix"><button type="submit" onclick="parent.location='{$Link}apply'">Apply for this Job</button></p>-->
                 
 		<div class="content">
 			$Content

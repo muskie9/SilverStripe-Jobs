@@ -6,7 +6,7 @@ class Job extends Page{
 		//'Category' => "Enum('Design, Development, Project Management, Writing, IA')",
 		'PositionType' => "Enum('Full-time, Part-time, Freelance, Internship')",
 		'PostDate' => 'Date',
-                'CloseDate' => 'Date',
+        'CloseDate' => 'Date',
 		'Experience' => 'Varchar(200)'
 	);
 	
@@ -112,7 +112,7 @@ class Job extends Page{
 				$apply.="</p>";
 				return $apply;
 			} else {
-				return '<p><b>No longer accepting applications for this position</b></p>';
+				return '<h2>No longer accepting applications for this position</h2>';
 			}	
 		}
 	}
