@@ -141,7 +141,12 @@ class Job extends Page{
 }
 
 class Job_Controller extends Page_Controller{
-	
+
+    private static $allowed_actions = array(
+        'apply',
+        'complete'
+    );
+
 	public function init() {
 		parent::init();
 		
