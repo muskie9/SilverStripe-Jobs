@@ -144,7 +144,8 @@ class Job_Controller extends Page_Controller{
 
     private static $allowed_actions = array(
         'apply',
-        'complete'
+        'complete',
+        'JobApp'
     );
 
 	public function init() {
